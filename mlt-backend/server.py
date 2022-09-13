@@ -1,4 +1,4 @@
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from http.server import HTTPServer, BaseHTTPRequestHandler, SimpleHTTPRequestHandler
 HOST = "0.0.0.0"
 PORT = 8888
 class NeuralHTTP(BaseHTTPRequestHandler):
@@ -7,6 +7,9 @@ class NeuralHTTP(BaseHTTPRequestHandler):
     self.send_header("Content-type", "application/json")
     self.end_headers()
     self.wfile.write("{\"message\": \"Hello World!\"}".encode())
+  def end_headers (self):
+        self.send_header('Access-Control-Allow-Origin', '*')
+        SimpleHTTPRequestHandler.end_headers(self)
 
 if __name__ == "__main__":
   httpd = HTTPServer((HOST, PORT), NeuralHTTP)
